@@ -4,7 +4,7 @@
 \alias{select.letters}
 \title{Select only letters from a string}
 \usage{
-select.letters(x)
+\method{select}{letters}(x)
 }
 \description{
 This function selects only letters from a string (i.e., removes numbers)
