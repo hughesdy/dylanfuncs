@@ -4,7 +4,7 @@
 \alias{recode.nda}
 \title{Recode 22q data to match NDA data structures}
 \usage{
-\method{recode}{nda}(raw, x, y)
+recode.nda(raw, x, y)
 }
 \arguments{
 \item{raw}{x y}
