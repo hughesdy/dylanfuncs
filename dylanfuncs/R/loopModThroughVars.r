@@ -5,6 +5,7 @@
 #' @param ivs A vector of characters corresponding to your main predictors/independent variables
 #' @param rownames Vector of characters specifying row names of the resultant table. These will correspond to your main predictors/IVs
 #' @param colnames Vector of characters specifying column names of the resultant table. These correspond to your outcomes/DVs
+#' @param covariates List of covariates (as characters) to include in the model. Note in the example below the syntax used for random effects (i.e., it's the same as the syntax you'd use for your lme4 models)
 #' @param data Dataframe in which your variables live
 #' @param na.omit If true, will first remove instances of NAs using the na.omit function. Defaults to FALSE.
 #' @keywords loopMod loopThroughMod
