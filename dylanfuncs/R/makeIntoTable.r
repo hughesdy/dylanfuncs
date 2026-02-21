@@ -25,6 +25,7 @@ makeIntoTable <- function(obj=NULL, betas=NULL, peas = NULL, fdr = NULL) {
     fdr.df = obj$fdr
   }
 
+  flag.num = ncol(betas) - 1
   table <- as.data.frame(matrix(ncol = ncol(betas), nrow = nrow(betas)))
   dimnames(table) = dimnames(betas)
 
@@ -53,11 +54,26 @@ makeIntoTable <- function(obj=NULL, betas=NULL, peas = NULL, fdr = NULL) {
     }
   }
 
-  gtobj <- gt(table, rownames_to_stub = T) %>%
-    tab_style(style = list(cell_text(weight = 'bold')), locations = cells_column_labels()) %>%
-    tab_style(style = list(cell_text(weight = 'bold')), locations = cells_stub())
+  bold.rows = c()
+  for (i in c(1:nrow(table))) {
+    if (length(which(grepl('\\*',table[i,]))) >= flag.num & grepl('\\*', table[i,ncol(betas)])) {
+      bold.rows = append(i, bold.rows)
+    } else {
+      next
+    }
+  }
 
-  print(gtobj)
+  if (is.null(bold.rows)) {
+    gtobj <- gt(table, rownames_to_stub = T) %>%
+      tab_style(style = list(cell_text(weight = 'bold')), locations = cells_column_labels()) %>%
+      tab_style(style = list(cell_text(weight = 'bold')), locations = cells_stub())
+  } else {
+    gtobj <- gt(table, rownames_to_stub = T) %>%
+      tab_style(style = list(cell_text(weight = 'bold')), locations = cells_column_labels()) %>%
+      tab_style(style = list(cell_text(weight = 'bold')), locations = cells_stub()) %>%
+      tab_style(style = list(cell_text(weight = 'bold')), locations = cells_body(rows = bold.rows))
+  }
+
 
   return.list = list('raw.table' = table, 'pretty.table' = gtobj)
 }

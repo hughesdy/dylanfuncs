@@ -4,7 +4,20 @@
 \alias{loopModThroughVars}
 \title{Function to loop through DVs and IVs and return results from lme4::lmer() models}
 \usage{
-loopModThroughVars(dvs, ivs, rownames, colnames, covariates, data, na.omit = F)
+loopModThroughVars(
+  dvs,
+  ivs,
+  rownames,
+  colnames,
+  covariates,
+  data,
+  tstat = F,
+  na.omit = F,
+  timeInteraction = F,
+  silent = F,
+  cis = F,
+  tabMod = F
+)
 }
 \arguments{
 \item{dvs}{A vector of characters corresponding to variables in your dataframe that represent dependent variables}
@@ -15,9 +28,19 @@ loopModThroughVars(dvs, ivs, rownames, colnames, covariates, data, na.omit = F)
 
 \item{colnames}{Vector of characters specifying column names of the resultant table. These correspond to your outcomes/DVs}
 
+\item{covariates}{List of covariates (as characters) to include in the model. Note in the example below the syntax used for random effects (i.e., it's the same as the syntax you'd use for your lme4 models)}
+
 \item{data}{Dataframe in which your variables live}
 
 \item{na.omit}{If true, will first remove instances of NAs using the na.omit function. Defaults to FALSE.}
+
+\item{timeInteraction}{If true, will interact main variable of interest with time and report interaction effects. Defaults to FALSE}
+
+\item{silent}{If true, output will be silent. Otherwise you'll get a countdown for how many models are left (per IV/DV combo). Defaults to FALSE. Useful to turn on if you're using this in an rmarkdown.}
+
+\item{cis}{If true, 95\% confidence intervals around the estimates will be provided. Will only provide a CI around the estimate of the main independent variable. Defaults to FALSE. Increases run time marginally but noticeably.}
+
+\item{tabMod}{If true, models will be printed as sjPlot::tab_models. Currently, any parameter edits you want to make have to be done from within the function.}
 }
 \description{
 This function iterates through mixed effects models with a specified set of dependent and independent variables as well as covariates.

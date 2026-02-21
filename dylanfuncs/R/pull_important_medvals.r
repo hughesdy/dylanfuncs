@@ -8,21 +8,21 @@
 #' @export
 #' @examples
 
-pull_important_medvals <- function(a, medi, mdres) {
+pull_important_medvals <- function(m, y, mdres) {
   summary <- summary(mdres)
-  model.a <- lmer.interpret(a)
-  model.med <- lmer.interpret(medi)
-  treat.row = which(grepl(summary$treat.value, rownames(model.a)))
-  med.row = which(grepl(summary$mediator, rownames(model.med)))
+  model.m <- lmer.interpret(m)
+  model.y <- lmer.interpret(y)
+  treat.row = which(grepl(summary$treat.value, rownames(model.m)))
+  med.row = which(grepl(summary$mediator, rownames(model.y)))
   total = round(summary$tau.coef,2)
   totalp = summary$tau.p
-  ade = round(summary$z0, 2)
-  adep = summary$z.avg.p
-  atob <- round(model.a[treat.row,1],2)
-  atobp <- model.a[treat.row,4]
-  btoc <- round(model.med[med.row,1],2)
-  btocp <- model.med[med.row,4]
+  direct = round(summary$z0, 2)
+  directp = summary$z.avg.p
+  apath <- round(model.m[treat.row,1],2)
+  apathp <- model.m[treat.row,4]
+  bpath <- round(model.y[med.row,1],2)
+  bpathp <- model.y[med.row,4]
   propmed <- round(summary$n0,2)
-  results = list('Total effect' = c(total, totalp), 'AtoB' = c(atob, atobp), 'BtoC' = c(btoc, btocp), 'ADE' = c(ade, adep), 'Prop Med' = propmed)
+  results = list('Total effect' = c(total, totalp), 'apath' = c(apath, apathp), 'bpath' = c(bpath, bpathp), 'ADE' = c(direct, directp), 'Prop Med' = propmed)
   return(results)
 }

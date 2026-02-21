@@ -12,20 +12,20 @@
 makeMediDiagram = function(medvals, a.lab, b.lab, c.lab) {
   library(diagram)
 
-  if (medvals$AtoB[2] < 0.001) {
-    a2b = paste0("'",medvals$AtoB[1], "**'")
-  } else if (medvals$AtoB[2] < 0.05) {
-    a2b = paste0("'",medvals$AtoB[1], "*'")
+  if (medvals$apath[2] < 0.001) {
+    apath = paste0("'",medvals$apath[1], "**'")
+  } else if (medvals$apath[2] < 0.05) {
+    apath = paste0("'",medvals$apath[1], "*'")
   } else {
-    a2b = paste0("'",medvals$AtoB[1],"'")
+    apath = paste0("'",medvals$apath[1],"'")
   }
 
-  if (medvals$BtoC[2] < 0.001) {
-    b2c = paste0("'",medvals$BtoC[1], "**'")
-  } else if (medvals$BtoC[2] < 0.05) {
-    b2c = paste0("'",medvals$BtoC[1],"*'")
+  if (medvals$bpath[2] < 0.001) {
+    bpath = paste0("'",medvals$bpath[1], "**'")
+  } else if (medvals$bpath[2] < 0.05) {
+    bpath = paste0("'",medvals$bpath[1],"*'")
   } else {
-    b2c = paste0("'",medvals$BtoC[1],"'")
+    bpath = paste0("'",medvals$bpath[1],"'")
   }
 
   if (medvals$ADE[2] < 0.001) {
@@ -44,12 +44,12 @@ makeMediDiagram = function(medvals, a.lab, b.lab, c.lab) {
     total = paste0("'",medvals$`Total effect`[1],"'")
   }
 
-  data <- c(0, a2b, 0,
+  data <- c(0, apath, 0,
             0, 0, 0,
-            b2c, paste0(total,' (', ADE,')'), 0)
+            bpath, paste0(total,' (', ADE,')'), 0)
   M <- matrix(nrow=3, ncol=3, byrow = T, data=data)
 
   plot <- plotmat(M, pos=c(1,2), name = c(b.lab, a.lab, c.lab), box.type = 'rect', box.size = 0.12, box.prop = 0.5, curve = 0, cex=0.8, box.cex = 0.8, main = paste0('Proportion of effect mediated: ', round(medvals$`Prop Med`,2)))
 
-  print(plot)
+  plot
 }

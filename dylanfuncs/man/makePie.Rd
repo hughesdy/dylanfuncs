@@ -4,7 +4,16 @@
 \alias{makePie}
 \title{Make Rmarkdown-friendly pie chart}
 \usage{
-makePie(data, title, print = F, showLegend = F, grabLegend = F, labelSize = 6)
+makePie(
+  data,
+  title,
+  print = F,
+  showLegend = F,
+  grabLegend = F,
+  labelSize = 6,
+  showLabels = T,
+  title.size = 3
+)
 }
 \arguments{
 \item{data}{vector to be pie'd}
@@ -16,6 +25,10 @@ makePie(data, title, print = F, showLegend = F, grabLegend = F, labelSize = 6)
 \item{grabLegend}{Relevant for grid.arrange function. If True, a legend will be grabbed to be fed into gridExtra functions later. Again this is FALSE to be more compatible with gridExtra. If you want to make a omni-legend for your grid plots, then you can change the argument to TRUE and the function will output a legend AND the pie chart as two separate objects}
 
 \item{labelSize}{Sets the size of labels on pie chart. Defaults to 6.}
+
+\item{showLabels}{Logical, determines whether or not labels will be shown on the pie chart}
+
+\item{title.size}{Numeric, determines what size the title text will be}
 }
 \description{
 This function makes a pie chart out of data you feed it! Compatible with loopPieThroughYears()

@@ -6,11 +6,26 @@
 #' @param showLegend if True, a legend will be plotted. Default is FALSE to make things cleaner in Rmd when you grid your pies. Defaults to FALSE
 #' @param grabLegend Relevant for grid.arrange function. If True, a legend will be grabbed to be fed into gridExtra functions later. Again this is FALSE to be more compatible with gridExtra. If you want to make a omni-legend for your grid plots, then you can change the argument to TRUE and the function will output a legend AND the pie chart as two separate objects
 #' @param labelSize Sets the size of labels on pie chart. Defaults to 6.
+#' @param showLabels Logical, determines whether or not labels will be shown on the pie chart
+#' @param title.size Numeric, determines what size the title text will be
 #' @keywords makePie
 #' @export
 #' @examples
 
-makePie <- function(data, title, print = F, showLegend = F, grabLegend = F, labelSize = 6) {
+makePie <- function(
+    data,
+    title,
+    print = F,
+    showLegend = F,
+    grabLegend = F,
+    labelSize = 6,
+    showLabels = T,
+    title.size = 3) {
+
+  if (!require(ggrepel)) {
+    install.packages('ggrepel')
+    library(ggrepel)
+  }
 
   tab <- table(data)
 
@@ -27,14 +42,28 @@ makePie <- function(data, title, print = F, showLegend = F, grabLegend = F, labe
     count = append(df.tab$Freq[i], count)
   }
 
-  plot <- ggplot(df.tab, aes(x="", y=Freq, fill=data)) +
-    geom_bar(stat="identity", width=1) +
-    coord_polar("y", start=0) +
-    theme_void() +
-    geom_label_repel(aes(y = ypos, label = label),
-                     size = 4.5, nudge_x = 1, show.legend = FALSE) +
-    ggtitle(title) +
-    theme(legend.title = element_blank())
+  if (showLabels == T) {
+    plot <- ggplot(df.tab, aes(x="", y=Freq, fill=data)) +
+      geom_bar(stat="identity", width=1) +
+      coord_polar("y", start=0) +
+      theme_void() +
+      geom_label_repel(aes(y = ypos, label = label),
+                       size = labelSize, nudge_x = 1, show.legend = FALSE) +
+      ggtitle(title) +
+      theme(legend.title = element_blank(),
+            title = element_text(size = title.size))
+  } else {
+    plot <- ggplot(df.tab, aes(x="", y=Freq, fill=data)) +
+      geom_bar(stat="identity", width=1) +
+      coord_polar("y", start=0) +
+      theme_void() +
+      ggtitle(title) +
+      theme(legend.title = element_blank(),
+            title = element_text(size = title.size),
+            plot.margin = unit(c(0, 0, 0, 0), "cm"))
+
+  }
+
 
   if (grabLegend == T) {
     legend <- get_legend(plot)
